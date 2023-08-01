@@ -1,0 +1,27 @@
+.test {
+  color: blue;
+}
+
+g > path,
+circle {
+  fill: #d3d3d3;
+  position: relative;
+  z-index: 0;
+}
+
+g > path:hover,
+circle:hover {
+  fill: rgb(153, 137, 178);
+}
+
+.map-div {
+  background-color: transparent;
+  overflow: hidden;
+  position: relative;
+}
+
+.glass {
+  -webkit-backdrop-filter: blur(0.6px);
+  backdrop-filter: blur(0.6px);
+
+}

@@ -1,0 +1,73 @@
+.wrapper {
+  width: 50vw;
+
+  margin-left: 25vw;
+  margin-right: 25vw;
+  margin-top: 4rem;
+
+  position: relative;
+
+  -webkit-backdrop-filter: blur(0.6px);
+  backdrop-filter: blur(0.6px);
+  
+}
+
+.outer-box {
+  border-radius: 20px;
+  background-color: #d3d3d3;
+  margin-top: 2rem;
+  stroke-width: 1px;
+  stroke: aqua;
+  padding: 20px;
+}
+
+form {
+  display: block;
+  height: 20vh;
+}
+
+select {
+  margin-top: 20px;
+  text-align: center;
+}
+
+button {
+  margin-top: 20px;
+}
+
+.title {
+  font-size: 24px;
+}
+
+.result {
+  margin-top: 20px;
+}
+
+p {
+  font-size: 18pxpx;
+}
+
+.output {
+  margin-top: 20px;
+}
+
+.glass__form__input {
+  width: 100%;
+  background: transparent;
+  outline: none;
+  border: none;
+  padding: 10px;
+  box-shadow: 5px 5px 5px rgb(0 0 0 / 10%);
+}
+
+.input-div {
+
+}
+
+label .small {
+  width: 48px;
+}
+
+label .large {
+  width: 96px
+}
