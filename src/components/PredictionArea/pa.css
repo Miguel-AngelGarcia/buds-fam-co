@@ -45,6 +45,8 @@ button {
 
 .result_line {
   margin-top: 20px;
+
+  transition-property: te;
 }
 
 .result {
