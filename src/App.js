@@ -1,4 +1,3 @@
-import logo from "./logo.svg";
 import "./App.css";
 import { useState, useEffect } from "react";
 import { UsMap } from "./components/UsMap/UsMap";
@@ -53,7 +52,7 @@ function App() {
 
   return (
     <div className="App">
-      <div className="background market"/>
+      <div className="background market" />
       <Navbar />
       <UsMap
         usState={usState}
@@ -68,8 +67,8 @@ function App() {
         metroAreas={metroOptions}
       />
       <div>{usState}</div>
-      <div>{metroArea}</div></div>
-    
+      <div>{metroArea}</div>
+    </div>
   );
 }
 
