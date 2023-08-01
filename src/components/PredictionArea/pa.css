@@ -9,7 +9,6 @@
 
   -webkit-backdrop-filter: blur(0.6px);
   backdrop-filter: blur(0.6px);
-  
 }
 
 .outer-box {
@@ -39,16 +38,50 @@ button {
   font-size: 24px;
 }
 
+.result-container {
+  overflow: hidden;
+  margin-top: 20px;
+}
+
+.result_line {
+  margin-top: 20px;
+}
+
 .result {
   margin-top: 20px;
 }
 
-p {
-  font-size: 18pxpx;
+.output {
+  transform: translate3d(0%, 0%, 0px);
 }
 
-.output {
-  margin-top: 20px;
+.output-effect {
+  animation-name: text-pop;
+  animation-duration: 1s;
+}
+
+@keyframes text-pop {
+  0% {
+    transform: translate3d(0%, 0%, 0px);
+  }
+
+  25% {
+    transform: translate3d(0%, -101%, 0px);
+    opacity: 0;
+  }
+
+  50% {
+    transform: translate3d(0%, 101%, 0px);
+  }
+
+  75% {
+    opacity: 1;
+    transform: translate3d(0%, 0%, 0px);
+  }
+}
+
+p {
+  font-size: 18px;
 }
 
 .glass__form__input {
@@ -61,7 +94,10 @@ p {
 }
 
 .input-div {
+}
 
+span {
+  margin: 8px;
 }
 
 label .small {
@@ -69,5 +105,5 @@ label .small {
 }
 
 label .large {
-  width: 96px
+  width: 96px;
 }

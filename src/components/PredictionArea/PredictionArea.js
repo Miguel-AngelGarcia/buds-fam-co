@@ -1,6 +1,6 @@
 import "./pa.css";
 //import { MetroAreas } from "../MetroAreas/MetroAreas";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export const PredictionArea = ({
   metroArea,
@@ -8,6 +8,8 @@ export const PredictionArea = ({
   usState,
   setUsState,
   metroAreas,
+  result,
+  setResult,
 }) => {
   const optionClick = (e) => {
     let index = e.target.selectedIndex;
@@ -18,11 +20,52 @@ export const PredictionArea = ({
     setUsState(optionState);
   };
 
-  console.log(metroAreas);
+  const currInfo = [
+    { interest: "4", vacancy: "4", price: "100000", value: "120000" },
+  ];
+
+  const [form, setForm] = useState({
+    interest: currInfo[0].interest,
+    vacancy: currInfo[0].vacancy,
+    price: currInfo[0].price,
+    value: currInfo[0].value,
+  });
+
+  //const [result, setResult] = useState("");
+
+  const handlePredict = (e) => {
+    e.preventDefault();
+    console.log("form submitted");
+
+    //these are the forms we will do
+    const form_data = new FormData();
+    form_data.append("interest", form.interest);
+    form_data.append("vacancy", form.vacancy);
+    form_data.append("price", form.price);
+    form_data.append("value", form.value);
+
+    console.log(form);
+    fetch("https://budsfamco-0d4d5b3cb466.herokuapp.com/predict", {
+      method: "POST",
+      body: form_data,
+    })
+      .then((response) => response.text())
+      .then((html) => {
+        setResult(html);
+      });
+  };
+
+  //this will change numbers in currInfo
+  const onChange = (e) => {
+    const inputName = e.target.name;
+    const inputValue = e.target.value;
+    setForm({ ...form, [inputName]: inputValue });
+  };
+
   return (
     <div className="wrapper glass">
       <div className="outer-box glass__form__input">
-        <form>
+        <form onSubmit={handlePredict}>
           <div className="title">
             <label for="MetroArea">Region</label>
           </div>
@@ -55,24 +98,48 @@ export const PredictionArea = ({
           </select>
           <div className="input-div">
             <label>
-              Interest Rate: <input name="interest" className="small"/>
+              Interest Rate:{" "}
+              <input
+                name="interest"
+                className="small"
+                placeholder={currInfo[0].interest}
+                onChange={onChange}
+              />
             </label>
             <label>
-              Vacancy Rate: <input name="vacancy" className="small" />
+              Vacancy Rate:{" "}
+              <input
+                name="vacancy"
+                className="small"
+                placeholder={currInfo[0].vacancy}
+                onChange={onChange}
+              />
             </label>
             <label>
-              House Price: <input name="price" className="large"/>
+              House Price:{" "}
+              <input
+                name="price"
+                className="large"
+                placeholder={currInfo[0].price}
+                onChange={onChange}
+              />
             </label>
             <label>
-              House Value: <input name="value" className="large"/>
+              House Value:{" "}
+              <input
+                name="value"
+                className="large"
+                placeholder={currInfo[0].value}
+                onChange={onChange}
+              />
             </label>
           </div>
-          <div className="result">
-            <button>Predict</button>
-            <p>Housing prices will:</p>
-            <div className="output">
-              <output>GO UP</output>
-            </div>
+          <button>Predict</button>
+          <div className="result-container">
+            <p className="result-line">
+              Housing prices will go:
+              <span>{result}</span>
+            </p>
           </div>
         </form>
       </div>

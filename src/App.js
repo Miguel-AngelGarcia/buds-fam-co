@@ -19,6 +19,8 @@ function App() {
 
   const [marketTrend, setMarketTrend] = useState("");
 
+  const [result, setResult] = useState("");
+
   function changeState(givenState) {
     setUsState(givenState);
     //setMetroArea(defaultMetroArea);
@@ -39,6 +41,11 @@ function App() {
 
     console.log(metroOptions);
   }
+
+  function changeResult(givenResult) {
+    setResult(givenResult);
+    console.log("result is", givenResult);
+  }
   /*
   useEffect(() => {
     fetch("/members")
@@ -52,7 +59,7 @@ function App() {
 
   return (
     <div className="App">
-      <div className="background market" />
+      <div className={`background ${result} market-${result}`} />
       <Navbar />
       <UsMap
         usState={usState}
@@ -65,9 +72,9 @@ function App() {
         setUsState={changeState}
         usState={usState}
         metroAreas={metroOptions}
+        result={result}
+        setResult={changeResult}
       />
-      <div>{usState}</div>
-      <div>{metroArea}</div>
     </div>
   );
 }
