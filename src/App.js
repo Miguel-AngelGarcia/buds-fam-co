@@ -6,9 +6,8 @@ import { PredictionArea } from "./components/PredictionArea/PredictionArea";
 import { MetroAreas } from "./components/MetroAreas/MetroAreas";
 
 function App() {
-  const [data, setData] = useState([{}]);
-
   const defaultMetroArea = "United States of America";
+  const defaultRegionId = "102001";
 
   //parent-usState
   const [usState, setUsState] = useState("");
@@ -19,17 +18,34 @@ function App() {
 
   const [marketTrend, setMarketTrend] = useState("");
 
+  const [regionId, setRegionId] = useState(defaultRegionId);
+
   const [result, setResult] = useState("");
+
+  const [dropdownAllowed, setDropdownAllowed] = useState(false);
+  const [predictAllowed, setPredictAllowed] = useState(true);
 
   function changeState(givenState) {
     setUsState(givenState);
+    console.log(givenState, regionId);
     //setMetroArea(defaultMetroArea);
     changeMetroAreaOptions(givenState);
+    console.log("IN changeState() ", regionId);
+    setRegionId(defaultRegionId);
   }
 
-  function changeMetroArea(givenMetroArea) {
+  function changeMetroArea(givenMetroArea, givenRegionId) {
     setMetroArea(givenMetroArea);
-    console.log(givenMetroArea);
+    setRegionId(givenRegionId);
+    console.log("in changeMetrArea() ", givenRegionId);
+    //console.log(givenMetroArea, givenRegionId);
+
+    changePredictAllowed(givenRegionId);
+  }
+
+  function changeRegionId(givenRegionId) {
+    setRegionId(givenRegionId);
+    console.log("in changeMetrArea() ", givenRegionId);
   }
 
   function changeMetroAreaOptions(givenState) {
@@ -38,25 +54,38 @@ function App() {
     });
 
     setMetroOptions(optionsForState);
-
-    console.log(metroOptions);
+    changeDropdownAllowed(givenState, optionsForState);
   }
 
   function changeResult(givenResult) {
     setResult(givenResult);
-    console.log("result is", givenResult);
+    //console.log("result is", givenResult);
   }
-  /*
-  useEffect(() => {
-    fetch("/members")
-      .then((res) => res.json())
-      .then((data) => {
-        setData(data);
-        console.log(data, "hi");
-      });
-  }, []);
-  */
 
+  function changeDropdownAllowed(state, mAs) {
+    const decision = state !== "" && mAs.length > 0;
+    //if state === ""         === if state !== ""
+    //OR mAs.length === 0          & mAs.length > 0
+    //FALSE
+    setDropdownAllowed(decision);
+
+    if (decision === true) {
+      console.log(
+        "in if stament. type ",
+        typeof predictAllowed,
+        typeof decision
+      );
+      setPredictAllowed(false);
+    } else {
+      setPredictAllowed(true);
+    }
+  }
+
+  function changePredictAllowed(boolean) {
+    setPredictAllowed(true);
+  }
+
+  console.log("REGION ID IN APP: ", regionId);
   return (
     <div className="App">
       <div className={`background ${result} market-${result}`} />
@@ -74,6 +103,12 @@ function App() {
         metroAreas={metroOptions}
         result={result}
         setResult={changeResult}
+        dropdownAllowed={dropdownAllowed}
+        //setPredictAllowed={changePredictAllowed}
+        predictAllowed={predictAllowed}
+        setPredictAllowed={changePredictAllowed}
+        regionId={regionId}
+        setRegionId={changeRegionId}
       />
     </div>
   );

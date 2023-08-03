@@ -1,6 +1,7 @@
 import "./pa.css";
 //import { MetroAreas } from "../MetroAreas/MetroAreas";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
+import { NumericFormat, PatternFormat } from "react-number-format";
 
 export const PredictionArea = ({
   metroArea,
@@ -10,32 +11,82 @@ export const PredictionArea = ({
   metroAreas,
   result,
   setResult,
+  defaultSelect,
+  dropdownAllowed,
+  predictAllowed,
+  setPredictAllowed,
+  regionId,
+  setRegionId,
 }) => {
+  console.log(
+    usState,
+    "predict allowed: ",
+    predictAllowed,
+    "dropdown",
+    dropdownAllowed,
+    "REGION ID: ",
+    regionId
+  );
+
   const optionClick = (e) => {
     let index = e.target.selectedIndex;
     let el = e.target.childNodes[index];
     let optionState = el.getAttribute("state");
     console.log("test", optionState);
-    setMetroArea(e.target.value);
+    let toUseRegionId = String(el.getAttribute("regionId"));
+    console.log("CURRENT REGION ID", toUseRegionId);
+
+    setMetroArea(e.target.value, toUseRegionId);
     setUsState(optionState);
+
+    setRegionId(toUseRegionId);
+
+    console.log(e.target.value);
+    console.log(metroArea);
+    setSelectValue(e.target.value);
+    setPredictAllowed(true);
+
+    setForm({ ...form, regionId: toUseRegionId });
   };
 
   const currInfo = [
-    { interest: "4", vacancy: "4", price: "100000", value: "120000" },
+    {
+      interest: "4",
+      vacancy: "4",
+      price: "100000",
+      value: "120000",
+      regionId: regionId,
+    },
   ];
+
+  const [selectValue, setSelectValue] = useState({ defaultSelect });
+
+  const [regionIdToUse, setRegionIdToUse] = "102001"; //U.S.A. region ID
+
+  //look into why this worked
+  //https://stackoverflow.com/questions/53715465/can-i-set-state-inside-a-useeffect-hook
+  useEffect(() => {
+    setForm((form) => ({ ...form, regionId: regionId }));
+  }, [regionId]);
 
   const [form, setForm] = useState({
     interest: currInfo[0].interest,
     vacancy: currInfo[0].vacancy,
     price: currInfo[0].price,
     value: currInfo[0].value,
+    regionId: currInfo[0].regionId,
   });
+
+  const [interestDigits, setInterestDigits] = useState(true);
 
   //const [result, setResult] = useState("");
 
   const handlePredict = (e) => {
     e.preventDefault();
-    console.log("form submitted");
+
+    //let toUseRegionId = regionId;
+    //setForm({ ...form, regionId: toUseRegionId });
+    //console.log("in predict ", toUseRegionId);
 
     //these are the forms we will do
     const form_data = new FormData();
@@ -43,6 +94,7 @@ export const PredictionArea = ({
     form_data.append("vacancy", form.vacancy);
     form_data.append("price", form.price);
     form_data.append("value", form.value);
+    form_data.append("regionId", regionId);
 
     console.log(form);
     fetch("https://budsfamco-0d4d5b3cb466.herokuapp.com/predict", {
@@ -56,9 +108,22 @@ export const PredictionArea = ({
   };
 
   //this will change numbers in currInfo
-  const onChange = (e) => {
+  const onChangePercent = (e) => {
+    const inputName = e.target.name;
+    const inputValue = parseFloat(e.target.value);
+    console.log(inputValue, inputValue.toString().length);
+    let char = inputValue.toString().length;
+    if (inputName === "interest" && char < 4) {
+      setInterestDigits(true);
+    }
+
+    setForm({ ...form, [inputName]: String(inputValue) });
+  };
+
+  const onChangeNumber = (e) => {
     const inputName = e.target.name;
     const inputValue = e.target.value;
+
     setForm({ ...form, [inputName]: inputValue });
   };
 
@@ -79,17 +144,21 @@ export const PredictionArea = ({
             id="MetroArea"
             name="MetroArea"
             //value={metroArea}
-            onChange={(e) => optionClick(e)}
+            onChange={optionClick} //(e) => optionClick(e)
             style={{
-              display: usState === "" || metroAreas.length < 1 ? "none" : "",
+              //display: usState === "" || metroAreas.length < 1 ? "none" : "",
+              display: dropdownAllowed === false ? "none" : "",
             }}
           >
+            <option defaultValue={true}>Select From List</option>
             {metroAreas.map((mArea) => (
               <option
                 name={mArea.name}
                 city={mArea.city}
                 state={mArea.state}
                 value={mArea.name}
+                regionId={mArea.regionId}
+                key={mArea.regionId} //added key to select resets to "Select From Option"
                 //onClick={setUsState(mArea.state)}
               >
                 {mArea.name}
@@ -99,42 +168,53 @@ export const PredictionArea = ({
           <div className="input-div">
             <label>
               Interest Rate:{" "}
-              <input
+              <PatternFormat
                 name="interest"
                 className="small"
-                placeholder={currInfo[0].interest}
-                onChange={onChange}
+                placeholder={`${currInfo[0].interest}%`}
+                format={interestDigits === true ? "#.##%" : "##.##%"}
+                onChange={onChangePercent}
+                maxLength={7}
               />
             </label>
             <label>
               Vacancy Rate:{" "}
-              <input
+              <NumericFormat
                 name="vacancy"
                 className="small"
-                placeholder={currInfo[0].vacancy}
-                onChange={onChange}
+                placeholder={`${currInfo[0].vacancy}%`}
+                decimalScale={2}
+                suffix={"%"}
+                onChange={onChangePercent}
+                maxLength={5}
               />
             </label>
             <label>
               House Price:{" "}
-              <input
+              <NumericFormat
+                thousandSeparator={true}
+                prefix={"$"}
+                decimalScale={2}
+                placeholder={`$${currInfo[0].price}`}
                 name="price"
                 className="large"
-                placeholder={currInfo[0].price}
-                onChange={onChange}
+                onChange={onChangeNumber}
               />
             </label>
             <label>
               House Value:{" "}
-              <input
+              <NumericFormat
+                thousandSeparator={true}
+                prefix={"$"}
+                decimalScale={2}
+                placeholder={`$${currInfo[0].value}`}
                 name="value"
                 className="large"
-                placeholder={currInfo[0].value}
-                onChange={onChange}
+                onChange={onChangeNumber}
               />
             </label>
           </div>
-          <button>Predict</button>
+          <button disabled={!predictAllowed}>Predict</button>
           <div className="result-container">
             <p className="result-line">
               Housing prices will go:
