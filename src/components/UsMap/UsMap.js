@@ -38,12 +38,12 @@ export const UsMap = ({ usState, setUsState, marketTrend }) => {
           inkscapeVersion="0.91 r13725"
           x="0px"
           y="0px"
-          width="959px"
-          height="593px"
+          //width="959px"
+          //height="593px"
           viewBox="174 100 959 593"
-          enable-background="new 174 100 959 593"
+          //enable-background="new 174 100 959 593"
           xmlSpace="preserve"
-          className={marketTrend}
+          className="svg-box"
         >
           <sodipodiNamedview
             bordercolor="#666666"
@@ -68,6 +68,7 @@ export const UsMap = ({ usState, setUsState, marketTrend }) => {
           ></sodipodiNamedview>
           <g
             id="g5"
+            className="actual-map"
             style={{
               filter: "drop-shadow(1px 1px 1px rgba(153, 137, 178, 0.2))",
             }}

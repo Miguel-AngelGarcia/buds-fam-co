@@ -22,7 +22,7 @@
 /* Navbar CSS */
 .navbar {
   background-color: #ffffff;
-  height: 80px;
+  min-height: 80px;
   display: flex;
   justify-content: flex-start;
   align-items: center;
@@ -57,6 +57,7 @@
 .nav-menu.active {
   left: 0;
   transition: 450ms;
+  transition-timing-function: ease-in;
 }
 
 .nav-text {
@@ -100,4 +101,31 @@
 
 span {
   margin-left: 16px;
+}
+
+@media screen and (max-width: 450px) {
+  .nav-menu {
+    width: 100%;
+    z-index: 99;
+  }
+
+  .navbar-toggle svg,
+  .nav-text svg {
+    width: 48px;
+    height: 48px;
+    left: 0;
+  }
+
+  .nav-text a {
+    font-size: 32px;
+  }
+
+  .nav-text {
+    margin-top: 16px;
+    margin-bottom: 16px;
+  }
+
+  .menu-bars {
+    margin-top: 32px;
+  }
 }

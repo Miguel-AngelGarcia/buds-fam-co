@@ -4,6 +4,8 @@ import { UsMap } from "./components/UsMap/UsMap";
 import { Navbar } from "./components/Navbar/Navbar";
 import { PredictionArea } from "./components/PredictionArea/PredictionArea";
 import { MetroAreas } from "./components/MetroAreas/MetroAreas";
+import { Footer } from "./components/Footer/Footer";
+import { CurveShape } from "./components/CurveShape/CurveShape";
 
 function App() {
   const defaultMetroArea = "United States of America";
@@ -91,32 +93,36 @@ function App() {
       <div className="app-wrap">
         <div className={`background ${result} market-${result}`} />
         <Navbar />
-        <div className="grid-wrapper">
-          <div className="map-item">
-            <UsMap
-              usState={usState}
-              setUsState={changeState}
-              marketTrend={marketTrend}
-            />
-          </div>
-          <div className="form-item">
-            <PredictionArea
-              metroArea={metroArea}
-              setMetroArea={changeMetroArea}
-              setUsState={changeState}
-              usState={usState}
-              metroAreas={metroOptions}
-              result={result}
-              setResult={changeResult}
-              dropdownAllowed={dropdownAllowed}
-              //setPredictAllowed={changePredictAllowed}
-              predictAllowed={predictAllowed}
-              setPredictAllowed={changePredictAllowed}
-              regionId={regionId}
-              setRegionId={changeRegionId}
-            />
+        <div className="grid-container">
+          <div className="grid-wrapper">
+            <div className="map-item">
+              <UsMap
+                usState={usState}
+                setUsState={changeState}
+                marketTrend={marketTrend}
+              />
+            </div>
+            <div className="form-item">
+              <PredictionArea
+                metroArea={metroArea}
+                setMetroArea={changeMetroArea}
+                setUsState={changeState}
+                usState={usState}
+                metroAreas={metroOptions}
+                result={result}
+                setResult={changeResult}
+                dropdownAllowed={dropdownAllowed}
+                //setPredictAllowed={changePredictAllowed}
+                predictAllowed={predictAllowed}
+                setPredictAllowed={changePredictAllowed}
+                regionId={regionId}
+                setRegionId={changeRegionId}
+              />
+            </div>
           </div>
         </div>
+        <CurveShape />
+        <Footer />
       </div>
     </div>
   );

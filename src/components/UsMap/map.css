@@ -25,9 +25,26 @@ circle:hover {
   backdrop-filter: blur(0.6px);
 }
 
-svg {
+.map > svg {
   width: 100%;
 }
 
-.map {
+.map-item {
+  align-items: center;
 }
+
+/*
+@media screen and (max-width: 900px) {
+  .map-item {
+    height: 100%;
+  }
+
+  .map {
+    height: 100%;
+  }
+
+  .map > svg {
+    transform: scale(0.75); 
+  }
+}
+*/

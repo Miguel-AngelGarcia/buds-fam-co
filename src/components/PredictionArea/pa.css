@@ -1,25 +1,31 @@
 .wrapper {
   width: 100%;
-  margin-top: 4rem;
-
   position: relative;
-
   -webkit-backdrop-filter: blur(0.6px);
   backdrop-filter: blur(0.6px);
+  display: flexbox;
+  border-radius: 20px;
 }
 
 .outer-box {
   border-radius: 20px;
-  background-color: #d3d3d3;
-  margin-top: 2rem;
   stroke-width: 1px;
-  stroke: aqua;
-  padding: 20px;
+
+  display: flexbox;
+  overflow: none;
+}
+
+.glass__form__input {
+  width: 100%;
+  background: transparent;
+  outline: none;
+  border: none;
+  box-shadow: 5px 5px 5px rgb(0 0 0 / 10%);
 }
 
 form {
   display: block;
-  height: 30vh;
+  height: 40vh;
 }
 
 select {
@@ -33,11 +39,19 @@ button {
 
 .title {
   font-size: 24px;
+  background-color: rgb(215, 197, 242);
+  width: 100%;
+  height: 40px;
+  border-radius: 20px 20px 0 0;
 }
 
 .result-container {
   overflow: hidden;
   margin-top: 20px;
+}
+
+.subtitle {
+  font-size: 24px;
 }
 
 .result_line {
@@ -83,15 +97,6 @@ p {
   font-size: 18px;
 }
 
-.glass__form__input {
-  width: 100%;
-  background: transparent;
-  outline: none;
-  border: none;
-  padding: 10px;
-  box-shadow: 5px 5px 5px rgb(0 0 0 / 10%);
-}
-
 .subtitle-area {
   height: 40px;
 }
@@ -115,4 +120,45 @@ label .small {
 
 label .large {
   width: 96px;
+}
+
+label,
+.button,
+.result-container {
+  display: block;
+  margin-top: 15px;
+}
+
+@media screen and (max-width: 900px) {
+  form {
+    height: 20vh;
+  }
+
+  .result-container {
+    margin-top: 0px;
+  }
+}
+
+@media screen and (max-width: 900px) {
+  .subtitle-area {
+    height: 32px;
+  }
+
+  .selection-area {
+    height: 32px;
+  }
+}
+
+@media screen and (max-width: 450px) {
+  .subtitle-area {
+    height: 24px;
+  }
+
+  .selection-area {
+    height: 24px;
+  }
+
+  form {
+    height: 100%;
+  }
 }

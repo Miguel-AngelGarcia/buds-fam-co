@@ -130,102 +130,109 @@ export const PredictionArea = ({
   return (
     <div className="wrapper glass">
       <div className="outer-box glass__form__input">
+        <div className="title">
+          <label for="MetroArea">Region</label>
+        </div>
         <form onSubmit={handlePredict}>
-          <div className="title">
-            <label for="MetroArea">Region</label>
-          </div>
-          <div className="subtitle-area">
-            <div
-              className="subtitle"
-              style={{ display: usState === "" ? "none" : "" }}
-            >
-              <label for="MetroArea">{usState}</label>
-            </div>
-          </div>
-
-          <div className="selection-area">
-            <select
-              id="MetroArea"
-              name="MetroArea"
-              //value={metroArea}
-              onChange={optionClick} //(e) => optionClick(e)
-              style={{
-                //display: usState === "" || metroAreas.length < 1 ? "none" : "",
-                display: dropdownAllowed === false ? "none" : "",
-              }}
-              className="select-box"
-            >
-              <option defaultValue={true}>Select From List</option>
-              {metroAreas.map((mArea) => (
-                <option
-                  name={mArea.name}
-                  city={mArea.city}
-                  state={mArea.state}
-                  value={mArea.name}
-                  regionId={mArea.regionId}
-                  key={mArea.regionId} //added key to select resets to "Select From Option"
-                  //onClick={setUsState(mArea.state)}
+          <div className="form-div">
+            <div className="subtitle-select">
+              <div className="subtitle-area">
+                <div
+                  className="subtitle"
+                  style={{ display: usState === "" ? "none" : "" }}
                 >
-                  {mArea.name}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div className="input-div">
-            <label>
-              Interest Rate:{" "}
-              <PatternFormat
-                name="interest"
-                className="small"
-                placeholder={`${currInfo[0].interest}%`}
-                format={interestDigits === true ? "#.##%" : "##.##%"}
-                onChange={onChangePercent}
-                maxLength={7}
-              />
-            </label>
-            <label>
-              Vacancy Rate:{" "}
-              <NumericFormat
-                name="vacancy"
-                className="small"
-                placeholder={`${currInfo[0].vacancy}%`}
-                decimalScale={2}
-                suffix={"%"}
-                onChange={onChangePercent}
-                maxLength={5}
-              />
-            </label>
-            <label>
-              House Price:{" "}
-              <NumericFormat
-                thousandSeparator={true}
-                prefix={"$"}
-                decimalScale={2}
-                placeholder={`$${currInfo[0].price}`}
-                name="price"
-                className="large"
-                onChange={onChangeNumber}
-              />
-            </label>
-            <label>
-              House Value:{" "}
-              <NumericFormat
-                thousandSeparator={true}
-                prefix={"$"}
-                decimalScale={2}
-                placeholder={`$${currInfo[0].value}`}
-                name="value"
-                className="large"
-                onChange={onChangeNumber}
-              />
-            </label>
-          </div>
-          <button disabled={!predictAllowed}>Predict</button>
-          <div className="result-container">
-            <p className="result-line">
-              Housing prices will go:
-              <span>{result}</span>
-            </p>
+                  <label for="MetroArea">{usState}</label>
+                </div>
+              </div>
+
+              <div className="selection-area">
+                <select
+                  id="MetroArea"
+                  name="MetroArea"
+                  //value={metroArea}
+                  onChange={optionClick} //(e) => optionClick(e)
+                  style={{
+                    //display: usState === "" || metroAreas.length < 1 ? "none" : "",
+                    display: dropdownAllowed === false ? "none" : "",
+                  }}
+                  className="select-box"
+                >
+                  <option defaultValue={true}>Select From List</option>
+                  {metroAreas.map((mArea) => (
+                    <option
+                      name={mArea.name}
+                      city={mArea.city}
+                      state={mArea.state}
+                      value={mArea.name}
+                      regionId={mArea.regionId}
+                      key={mArea.regionId} //added key to select resets to "Select From Option"
+                      //onClick={setUsState(mArea.state)}
+                    >
+                      {mArea.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+            <div className="input-button-result">
+              <label>
+                Interest Rate:{" "}
+                <PatternFormat
+                  name="interest"
+                  className="small"
+                  placeholder={`${currInfo[0].interest}%`}
+                  format={interestDigits === true ? "#.##%" : "##.##%"}
+                  onChange={onChangePercent}
+                  maxLength={7}
+                />
+              </label>
+              <label>
+                Vacancy Rate:{" "}
+                <NumericFormat
+                  name="vacancy"
+                  className="small"
+                  placeholder={`${currInfo[0].vacancy}%`}
+                  decimalScale={2}
+                  suffix={"%"}
+                  onChange={onChangePercent}
+                  maxLength={5}
+                />
+              </label>
+              <label>
+                House Price:{" "}
+                <NumericFormat
+                  thousandSeparator={true}
+                  prefix={"$"}
+                  decimalScale={2}
+                  placeholder={`$${currInfo[0].price}`}
+                  name="price"
+                  className="large"
+                  onChange={onChangeNumber}
+                />
+              </label>
+              <label>
+                House Value:{" "}
+                <NumericFormat
+                  thousandSeparator={true}
+                  prefix={"$"}
+                  decimalScale={2}
+                  placeholder={`$${currInfo[0].value}`}
+                  name="value"
+                  className="large"
+                  onChange={onChangeNumber}
+                />
+              </label>
+              <div className="button">
+                <button disabled={!predictAllowed}>Predict</button>
+              </div>
+
+              <div className="result-container">
+                <p className="result-line">
+                  Housing prices will go:
+                  <span>{result}</span>
+                </p>
+              </div>
+            </div>
           </div>
         </form>
       </div>
