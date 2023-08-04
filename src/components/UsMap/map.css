@@ -23,5 +23,11 @@ circle:hover {
 .glass {
   -webkit-backdrop-filter: blur(0.6px);
   backdrop-filter: blur(0.6px);
+}
 
+svg {
+  width: 100%;
+}
+
+.map {
 }

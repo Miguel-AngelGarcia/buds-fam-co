@@ -134,37 +134,43 @@ export const PredictionArea = ({
           <div className="title">
             <label for="MetroArea">Region</label>
           </div>
-          <div
-            className="subtitle"
-            style={{ display: usState === "" ? "none" : "" }}
-          >
-            <label for="MetroArea">{usState}</label>
+          <div className="subtitle-area">
+            <div
+              className="subtitle"
+              style={{ display: usState === "" ? "none" : "" }}
+            >
+              <label for="MetroArea">{usState}</label>
+            </div>
           </div>
-          <select
-            id="MetroArea"
-            name="MetroArea"
-            //value={metroArea}
-            onChange={optionClick} //(e) => optionClick(e)
-            style={{
-              //display: usState === "" || metroAreas.length < 1 ? "none" : "",
-              display: dropdownAllowed === false ? "none" : "",
-            }}
-          >
-            <option defaultValue={true}>Select From List</option>
-            {metroAreas.map((mArea) => (
-              <option
-                name={mArea.name}
-                city={mArea.city}
-                state={mArea.state}
-                value={mArea.name}
-                regionId={mArea.regionId}
-                key={mArea.regionId} //added key to select resets to "Select From Option"
-                //onClick={setUsState(mArea.state)}
-              >
-                {mArea.name}
-              </option>
-            ))}
-          </select>
+
+          <div className="selection-area">
+            <select
+              id="MetroArea"
+              name="MetroArea"
+              //value={metroArea}
+              onChange={optionClick} //(e) => optionClick(e)
+              style={{
+                //display: usState === "" || metroAreas.length < 1 ? "none" : "",
+                display: dropdownAllowed === false ? "none" : "",
+              }}
+              className="select-box"
+            >
+              <option defaultValue={true}>Select From List</option>
+              {metroAreas.map((mArea) => (
+                <option
+                  name={mArea.name}
+                  city={mArea.city}
+                  state={mArea.state}
+                  value={mArea.name}
+                  regionId={mArea.regionId}
+                  key={mArea.regionId} //added key to select resets to "Select From Option"
+                  //onClick={setUsState(mArea.state)}
+                >
+                  {mArea.name}
+                </option>
+              ))}
+            </select>
+          </div>
           <div className="input-div">
             <label>
               Interest Rate:{" "}

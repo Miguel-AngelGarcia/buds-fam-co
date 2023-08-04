@@ -191,6 +191,46 @@
   }
 }
 
+.grid-wrapper {
+  display: grid;
+  grid-template-rows: 1fr;
+  grid-template-columns: minmax(650px, 67%) 33%;
+  /*min-width: 375px;*/
+}
+
+@media screen and (max-width: 650px) {
+  .app {
+  }
+
+  .grid-wrapper {
+    display: grid;
+    grid-template-rows: repeat(autofill, 1fr);
+    grid-template-columns: 1fr;
+    position: absolute;
+  }
+
+  .map svg {
+    height: auto;
+  }
+}
+
+@media screen and (max-width: 450px) {
+  .app-wrap {
+    display: grid;
+    height: 100vh;
+  }
+
+  .grid-wrapper {
+    justify-self: center;
+    align-self: center;
+  }
+
+  .form-item {
+    margin-left: 4vw;
+    margin-right: 4vw;
+  }
+}
+
 /*OLD
 
 .background.down::before {

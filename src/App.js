@@ -88,28 +88,36 @@ function App() {
   console.log("REGION ID IN APP: ", regionId);
   return (
     <div className="App">
-      <div className={`background ${result} market-${result}`} />
-      <Navbar />
-      <UsMap
-        usState={usState}
-        setUsState={changeState}
-        marketTrend={marketTrend}
-      />
-      <PredictionArea
-        metroArea={metroArea}
-        setMetroArea={changeMetroArea}
-        setUsState={changeState}
-        usState={usState}
-        metroAreas={metroOptions}
-        result={result}
-        setResult={changeResult}
-        dropdownAllowed={dropdownAllowed}
-        //setPredictAllowed={changePredictAllowed}
-        predictAllowed={predictAllowed}
-        setPredictAllowed={changePredictAllowed}
-        regionId={regionId}
-        setRegionId={changeRegionId}
-      />
+      <div className="app-wrap">
+        <div className={`background ${result} market-${result}`} />
+        <Navbar />
+        <div className="grid-wrapper">
+          <div className="map-item">
+            <UsMap
+              usState={usState}
+              setUsState={changeState}
+              marketTrend={marketTrend}
+            />
+          </div>
+          <div className="form-item">
+            <PredictionArea
+              metroArea={metroArea}
+              setMetroArea={changeMetroArea}
+              setUsState={changeState}
+              usState={usState}
+              metroAreas={metroOptions}
+              result={result}
+              setResult={changeResult}
+              dropdownAllowed={dropdownAllowed}
+              //setPredictAllowed={changePredictAllowed}
+              predictAllowed={predictAllowed}
+              setPredictAllowed={changePredictAllowed}
+              regionId={regionId}
+              setRegionId={changeRegionId}
+            />
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
