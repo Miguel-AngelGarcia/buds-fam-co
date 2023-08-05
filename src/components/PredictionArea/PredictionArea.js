@@ -185,21 +185,20 @@ export const PredictionArea = ({
                   name="interest"
                   className="small"
                   placeholder={`${currInfo[0].interest}%`}
-                  format={interestDigits === true ? "#.##%" : "##.##%"}
+                  format="##.#%"
                   onChange={onChangePercent}
-                  maxLength={7}
+                  maxLength={6}
                 />
               </label>
               <label>
                 Vacancy Rate:{" "}
-                <NumericFormat
+                <PatternFormat
                   name="vacancy"
                   className="small"
                   placeholder={`${currInfo[0].vacancy}%`}
-                  decimalScale={2}
-                  suffix={"%"}
+                  format="##.#%"
                   onChange={onChangePercent}
-                  maxLength={5}
+                  maxLength={6}
                 />
               </label>
               <label>
