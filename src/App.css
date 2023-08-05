@@ -278,6 +278,13 @@ button {
   border-radius: 20px;
 }
 
+.not-allowed {
+  color: #282c34;
+  background-color: lightgray;
+  width: 64px;
+  border-radius: 20px;
+}
+
 .button {
   width: 100%;
   position: relative;
@@ -414,6 +421,20 @@ button {
 
   .navbar {
     height: 60px;
+  }
+}
+
+@media screen and (min-width: 1450px) {
+  .form-item label {
+    font-size: 24px;
+  }
+
+  .title label {
+    font-size: 28px;
+  }
+
+  .result-container p {
+    font-size: 24px;
   }
 }
 

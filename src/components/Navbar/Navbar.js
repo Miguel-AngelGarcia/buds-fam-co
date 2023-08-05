@@ -15,7 +15,7 @@ export const Navbar = () => {
     <>
       <IconContext.Provider value={{ color: "undefined" }}>
         <div className="navbar">
-          <Link to="#" className="menu-bars">
+          <Link to="#" className="menu-bars" style={{ display: "none" }}>
             <FaIcons.FaBars onClick={showSidebar} />
           </Link>
         </div>

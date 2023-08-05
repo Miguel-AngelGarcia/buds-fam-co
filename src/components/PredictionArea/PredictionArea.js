@@ -122,7 +122,11 @@ export const PredictionArea = ({
 
   const onChangeNumber = (e) => {
     const inputName = e.target.name;
-    const inputValue = e.target.value;
+    let inputValue = String(e.target.value);
+
+    inputValue = inputValue.replace("$", "").replace(/,/g, "");
+
+    console.log(inputValue);
 
     setForm({ ...form, [inputName]: inputValue });
   };
@@ -223,14 +227,16 @@ export const PredictionArea = ({
                 />
               </label>
               <div className="button">
-                <button disabled={!predictAllowed}>Predict</button>
+                <button
+                  disabled={!predictAllowed}
+                  className={predictAllowed ? "" : "not-allowed"}
+                >
+                  Predict
+                </button>
               </div>
 
               <div className="result-container">
-                <p className="result-line">
-                  Housing prices will go:
-                  <span>{result}</span>
-                </p>
+                <p className="result-line">Housing prices will go: {result}</p>
               </div>
             </div>
           </div>

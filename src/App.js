@@ -87,6 +87,11 @@ function App() {
     setPredictAllowed(true);
   }
 
+  //after a state or metro area changes, will reset background
+  useEffect(() => {
+    setResult("");
+  }, [usState, metroArea]);
+
   console.log("REGION ID IN APP: ", regionId);
   return (
     <div className="App">
