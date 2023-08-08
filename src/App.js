@@ -16,6 +16,8 @@ function App() {
 
   const [metroArea, setMetroArea] = useState(defaultMetroArea);
 
+  const [metroInfo, setMetroInfo] = useState({ defaultRegionId: [] });
+
   const [metroOptions, setMetroOptions] = useState([{}]);
 
   const [marketTrend, setMarketTrend] = useState("");
@@ -27,27 +29,44 @@ function App() {
   const [dropdownAllowed, setDropdownAllowed] = useState(false);
   const [predictAllowed, setPredictAllowed] = useState(true);
 
+  const [isLoading, setIsLoading] = useState(true);
+  const [httpError, setHttpError] = useState(null);
+
+  const [currentRates, setCurrentRates] = useState([{}]);
+  const [metroAreaPrice, setMetroAreaPrice] = useState("");
+  const [metroAreaValue, setMetroAreaValue] = useState("");
+  const [umm, setUmm] = useState(100);
+
+  function changeMetroInfo(givenArray, toFind) {
+    for (const item in givenArray) {
+      if (givenArray[item].regionId === Number(toFind)) {
+        setMetroAreaPrice(givenArray[item].price);
+        setMetroAreaValue(Math.round(givenArray[item].value));
+      }
+    }
+  }
+
   function changeState(givenState) {
     setUsState(givenState);
     console.log(givenState, regionId);
     //setMetroArea(defaultMetroArea);
     changeMetroAreaOptions(givenState);
-    console.log("IN changeState() ", regionId);
+
     setRegionId(defaultRegionId);
+
+    changeMetroInfo(metroInfo, defaultRegionId);
   }
 
   function changeMetroArea(givenMetroArea, givenRegionId) {
     setMetroArea(givenMetroArea);
     setRegionId(givenRegionId);
-    console.log("in changeMetrArea() ", givenRegionId);
-    //console.log(givenMetroArea, givenRegionId);
 
     changePredictAllowed(givenRegionId);
+    changeMetroInfo(metroInfo, givenRegionId);
   }
 
   function changeRegionId(givenRegionId) {
     setRegionId(givenRegionId);
-    console.log("in changeMetrArea() ", givenRegionId);
   }
 
   function changeMetroAreaOptions(givenState) {
@@ -72,11 +91,6 @@ function App() {
     setDropdownAllowed(decision);
 
     if (decision === true) {
-      console.log(
-        "in if stament. type ",
-        typeof predictAllowed,
-        typeof decision
-      );
       setPredictAllowed(false);
     } else {
       setPredictAllowed(true);
@@ -91,6 +105,61 @@ function App() {
   useEffect(() => {
     setResult("");
   }, [usState, metroArea]);
+
+  useEffect(() => {
+    /*async we need to wait for a promise to come back
+    ALSO make sure you just pop after selecting number once */
+    const fetchInfo = async () => {
+      //const ratesInfo = "https://budsfamco-0d4d5b3cb466.herokuapp.com/rates";
+      const ratesInfo = "https://budsfamco-0d4d5b3cb466.herokuapp.com/rates";
+      const idResponse = await fetch(ratesInfo);
+      if (!idResponse.ok) {
+        throw new Error("something went wrong!");
+      }
+      const idResponseJSON = await idResponse.json();
+      //console.log("JSON", idResponseJSON);
+
+      setCurrentRates(idResponseJSON);
+    };
+
+    fetchInfo().catch((error) => {
+      setIsLoading(false);
+      setHttpError(error.message);
+    });
+  }, []);
+
+  useEffect(() => {
+    const fetchMetroInfo = async () => {
+      //const ratesInfo = "https://budsfamco-0d4d5b3cb466.herokuapp.com/info";
+      const metroInfoLink = "https://budsfamco-0d4d5b3cb466.herokuapp.com/info";
+      const metroAreaResponse = await fetch(metroInfoLink);
+      if (!metroAreaResponse.ok) {
+        throw new Error("something went wrong!");
+      }
+      const maResponseJSON = await metroAreaResponse.json();
+
+      const loadedMetroAreas = [];
+
+      for (const key in maResponseJSON) {
+        loadedMetroAreas.push({
+          regionId: maResponseJSON[key].regionId,
+          price: maResponseJSON[key].price,
+          value: maResponseJSON[key].value,
+        });
+      }
+
+      setMetroInfo(loadedMetroAreas);
+
+      changeMetroInfo(loadedMetroAreas, defaultRegionId);
+
+      //setMetroAreaPrice(maResponseJSON[defaultRegionId][0]);
+      //setMetroAreaValue(maResponseJSON[defaultRegionId][1]);
+    };
+    fetchMetroInfo().catch((error) => {
+      setIsLoading(false);
+      setHttpError(error.message);
+    });
+  }, []);
 
   console.log("REGION ID IN APP: ", regionId);
   return (
@@ -122,6 +191,11 @@ function App() {
                 setPredictAllowed={changePredictAllowed}
                 regionId={regionId}
                 setRegionId={changeRegionId}
+                currentRates={currentRates}
+                metroInfo={metroInfo}
+                metroAreaPrice={metroAreaPrice}
+                metroAreaValue={metroAreaValue}
+                test={umm}
               />
             </div>
           </div>

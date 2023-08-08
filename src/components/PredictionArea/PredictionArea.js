@@ -17,32 +17,24 @@ export const PredictionArea = ({
   setPredictAllowed,
   regionId,
   setRegionId,
+  currentRates,
+  metroAreaPrice,
+  test,
+  metroAreaValue,
 }) => {
-  console.log(
-    usState,
-    "predict allowed: ",
-    predictAllowed,
-    "dropdown",
-    dropdownAllowed,
-    "REGION ID: ",
-    regionId
-  );
-
   const optionClick = (e) => {
     let index = e.target.selectedIndex;
     let el = e.target.childNodes[index];
     let optionState = el.getAttribute("state");
-    console.log("test", optionState);
-    let toUseRegionId = String(el.getAttribute("regionId"));
-    console.log("CURRENT REGION ID", toUseRegionId);
 
-    setMetroArea(e.target.value, toUseRegionId);
+    let toUseRegionId = String(el.getAttribute("regionId"));
+    //console.log("CURRENT REGION ID", toUseRegionId);
+
     setUsState(optionState);
+    setMetroArea(e.target.value, toUseRegionId);
 
     setRegionId(toUseRegionId);
 
-    console.log(e.target.value);
-    console.log(metroArea);
     setSelectValue(e.target.value);
     setPredictAllowed(true);
 
@@ -51,17 +43,15 @@ export const PredictionArea = ({
 
   const currInfo = [
     {
-      interest: "4",
-      vacancy: "4",
-      price: "100000",
-      value: "120000",
+      interest: currentRates.interest,
+      vacancy: currentRates.vacancy,
+      price: parseInt(metroAreaPrice).toFixed(0),
+      value: metroAreaValue,
       regionId: regionId,
     },
   ];
 
   const [selectValue, setSelectValue] = useState({ defaultSelect });
-
-  const [regionIdToUse, setRegionIdToUse] = "102001"; //U.S.A. region ID
 
   //look into why this worked
   //https://stackoverflow.com/questions/53715465/can-i-set-state-inside-a-useeffect-hook
@@ -69,12 +59,24 @@ export const PredictionArea = ({
     setForm((form) => ({ ...form, regionId: regionId }));
   }, [regionId]);
 
+  useEffect(() => {
+    setForm((form) => ({ ...form, interest: currentRates.interest }));
+    setForm((form) => ({ ...form, vacancy: currentRates.vacancy }));
+    setForm((form) => ({ ...form, cpi: currentRates.cpi }));
+  }, [currentRates.interest, currentRates.vacancy, currentRates.cpi]);
+
+  useEffect(() => {
+    setForm((form) => ({ ...form, price: metroAreaPrice }));
+    setForm((form) => ({ ...form, value: metroAreaValue }));
+  }, [metroAreaPrice, metroAreaValue]);
+
   const [form, setForm] = useState({
     interest: currInfo[0].interest,
     vacancy: currInfo[0].vacancy,
     price: currInfo[0].price,
     value: currInfo[0].value,
     regionId: currInfo[0].regionId,
+    cpi: "",
   });
 
   const [interestDigits, setInterestDigits] = useState(true);
@@ -83,10 +85,6 @@ export const PredictionArea = ({
 
   const handlePredict = (e) => {
     e.preventDefault();
-
-    //let toUseRegionId = regionId;
-    //setForm({ ...form, regionId: toUseRegionId });
-    //console.log("in predict ", toUseRegionId);
 
     //these are the forms we will do
     const form_data = new FormData();
@@ -111,7 +109,7 @@ export const PredictionArea = ({
   const onChangePercent = (e) => {
     const inputName = e.target.name;
     const inputValue = parseFloat(e.target.value);
-    console.log(inputValue, inputValue.toString().length);
+
     let char = inputValue.toString().length;
     if (inputName === "interest" && char < 4) {
       setInterestDigits(true);
