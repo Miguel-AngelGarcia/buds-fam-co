@@ -93,6 +93,7 @@ export const PredictionArea = ({
     form_data.append("price", form.price);
     form_data.append("value", form.value);
     form_data.append("regionId", regionId);
+    form_data.append("cpi", form.cpi);
 
     console.log(form);
     fetch("https://budsfamco-0d4d5b3cb466.herokuapp.com/predict", {
