@@ -4,10 +4,18 @@ import { TimeGraph } from "../TimeGraph/TimeGraph";
 import { GaugeChart } from "../GaugeChart/GaugeChart";
 
 //setModalState is the changeModalState Function
-export const Modal = ({ modalState, setModalState, regionId, usState }) => {
+export const Modal = ({
+  modalState,
+  setModalState,
+  regionId,
+  metroArea,
+  accuracy,
+  predictionTrends,
+}) => {
   //if modeState is not true (not open), do not render
   if (!modalState) return null;
 
+  console.log("ACCURACY OMAL", accuracy);
   return (
     <>
       <div className="overlay-styles"></div>
@@ -15,7 +23,7 @@ export const Modal = ({ modalState, setModalState, regionId, usState }) => {
         <div className="modal-wrapper">
           <div className="modal-container">
             <div className="modal-title-container">
-              <div className="modal-title-div">TITLE</div>
+              <div className="modal-title-div">{metroArea}</div>
             </div>
             <div className="graph-wrapper">
               <div className="graph-container">
@@ -23,8 +31,8 @@ export const Modal = ({ modalState, setModalState, regionId, usState }) => {
                   <TimeGraph regionId={regionId} />
                 </div>
                 <div className="graph-bottom">
-                  <BarChart />
-                  <GaugeChart />
+                  <BarChart predictionTrends={predictionTrends} />
+                  <GaugeChart accuracy={accuracy} />
                 </div>
               </div>
             </div>

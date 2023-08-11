@@ -1,10 +1,27 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { CategoryScale, Doughnut } from "react-chartjs-2";
 import Chart from "chart.js/auto";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js/auto";
 
-export const GaugeChart = () => {
-  const testData = [{ accuracy: 60, remaining: 40 }];
+export const GaugeChart = ({ accuracy }) => {
+  const [accuracyData, setAccuracyData] = useState({
+    accuracy: 0,
+    remaining: 100,
+  });
+
+  useEffect(() => {
+    let remaining = 100 - accuracy;
+
+    setAccuracyData((accuracyData) => ({
+      ...accuracyData,
+      accuracy: accuracy,
+    }));
+    setAccuracyData((accuracyData) => ({
+      ...accuracyData,
+      remaining: remaining,
+    }));
+  }, [accuracy]);
+
   // setup
 
   const data = {
@@ -12,9 +29,9 @@ export const GaugeChart = () => {
     datasets: [
       {
         //label: "Accuracy",
-        data: [testData[0].accuracy, testData[0].remaining],
+        data: [accuracyData.accuracy, accuracyData.remaining],
         backgroundColor: (context) => {
-          console.log(context);
+          //console.log(context);
           const chart = context.chart;
           const { ctx, chartArea } = chart;
           if (!chartArea) {
@@ -79,7 +96,7 @@ export const GaugeChart = () => {
       ctx.font = "bold 48px sans-serif";
       ctx.textAlign = "center";
       ctx.textBaseline = "top";
-      ctx.fillText(`${data.datasets[0].data[0]}%`, xCenter, yCenter - 48);
+      ctx.fillText(`${accuracy}%`, xCenter, yCenter - 48);
     },
   };
 

@@ -34,6 +34,12 @@ function App() {
   const [httpError, setHttpError] = useState(null);
 
   const [currentRates, setCurrentRates] = useState([{}]);
+
+  const [predictionTrends, setPredictionTrends] = useState([{}]);
+
+  const [accuracyInfo, setAccuracyInfo] = useState([{}]);
+  const [accuracy, setAccuracy] = useState("");
+
   const [metroAreaPrice, setMetroAreaPrice] = useState("");
   const [metroAreaValue, setMetroAreaValue] = useState("");
 
@@ -48,15 +54,25 @@ function App() {
     }
   }
 
+  function changeAccuracyInfo(givenArray, toFind) {
+    for (const item in givenArray) {
+      if (givenArray[item].regionId === Number(toFind)) {
+        let rounded = Math.round(givenArray[item].accuracy * 100);
+        setAccuracy(rounded);
+      }
+    }
+  }
+
   function changeState(givenState) {
     setUsState(givenState);
-    console.log(givenState, regionId);
+    //console.log(givenState, regionId);
     //setMetroArea(defaultMetroArea);
     changeMetroAreaOptions(givenState);
 
     setRegionId(defaultRegionId);
 
     changeMetroInfo(metroInfo, defaultRegionId);
+    changeAccuracyInfo(accuracyInfo, defaultRegionId);
   }
 
   function changeMetroArea(givenMetroArea, givenRegionId) {
@@ -65,6 +81,7 @@ function App() {
 
     changePredictAllowed(givenRegionId);
     changeMetroInfo(metroInfo, givenRegionId);
+    changeAccuracyInfo(accuracyInfo, givenRegionId);
   }
 
   function changeRegionId(givenRegionId) {
@@ -112,6 +129,7 @@ function App() {
     setResult("");
   }, [usState, metroArea]);
 
+  //gets rates: interest, vacancy, cpi
   useEffect(() => {
     /*async we need to wait for a promise to come back
     ALSO make sure you just pop after selecting number once */
@@ -129,6 +147,59 @@ function App() {
     };
 
     fetchInfo().catch((error) => {
+      setIsLoading(false);
+      setHttpError(error.message);
+    });
+  }, []);
+
+  //gets number of predicted markets going up and # going down
+  useEffect(() => {
+    /*async we need to wait for a promise to come back
+    ALSO make sure you just pop after selecting number once */
+    const fetchTrendInfo = async () => {
+      //const ratesInfo = "https://budsfamco-0d4d5b3cb466.herokuapp.com/trends";
+      const trendInfo = "https://budsfamco-0d4d5b3cb466.herokuapp.com/trends";
+      const trendResponse = await fetch(trendInfo);
+      if (!trendResponse.ok) {
+        throw new Error("something went wrong!");
+      }
+      const trendResponseJSON = await trendResponse.json();
+
+      setPredictionTrends(trendResponseJSON);
+    };
+
+    fetchTrendInfo().catch((error) => {
+      setIsLoading(false);
+      setHttpError(error.message);
+    });
+  }, []);
+
+  useEffect(() => {
+    /*async we need to wait for a promise to come back
+    ALSO make sure you just pop after selecting number once */
+    const fetchAccurcyInfo = async () => {
+      const accuracyInfo =
+        "https://budsfamco-0d4d5b3cb466.herokuapp.com/accuracy";
+      const accuracyResponse = await fetch(accuracyInfo);
+      if (!accuracyResponse.ok) {
+        throw new Error("something went wrong!");
+      }
+      const accuracyResponseJSON = await accuracyResponse.json();
+
+      const loadedAccuracyInfo = [];
+
+      for (const key in accuracyResponseJSON) {
+        loadedAccuracyInfo.push({
+          regionId: accuracyResponseJSON[key].regionId,
+          accuracy: accuracyResponseJSON[key].accuracy,
+        });
+      }
+
+      setAccuracyInfo(loadedAccuracyInfo);
+      changeAccuracyInfo(loadedAccuracyInfo, defaultRegionId);
+    };
+
+    fetchAccurcyInfo().catch((error) => {
       setIsLoading(false);
       setHttpError(error.message);
     });
@@ -167,7 +238,7 @@ function App() {
     });
   }, []);
 
-  console.log("REGION ID IN APP: ", regionId);
+  //console.log("REGION ID IN APP: ", regionId);
   return (
     <div className="App">
       <div className="app-wrap">
@@ -212,6 +283,9 @@ function App() {
           setModalState={changeModalState}
           regionId={regionId}
           usState={usState}
+          accuracy={accuracy}
+          predictionTrends={predictionTrends}
+          metroArea={metroArea}
         />
         <CurveShape />
         <Footer />
