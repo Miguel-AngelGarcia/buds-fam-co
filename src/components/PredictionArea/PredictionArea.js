@@ -2,6 +2,9 @@ import "./pa.css";
 //import { MetroAreas } from "../MetroAreas/MetroAreas";
 import { useEffect, useState, useRef } from "react";
 import { NumericFormat, PatternFormat } from "react-number-format";
+import { BarChart } from "../BarChart/BarChart";
+import { GaugeChart } from "../GaugeChart/GaugeChart";
+import { TimeGraph } from "../TimeGraph/TimeGraph";
 
 export const PredictionArea = ({
   metroArea,
@@ -19,8 +22,9 @@ export const PredictionArea = ({
   setRegionId,
   currentRates,
   metroAreaPrice,
-  test,
   metroAreaValue,
+  modalState,
+  setModalState,
 }) => {
   const optionClick = (e) => {
     let index = e.target.selectedIndex;
@@ -239,6 +243,7 @@ export const PredictionArea = ({
             </div>
           </div>
         </form>
+        <button onClick={() => setModalState(!modalState)}>Graphs</button>
       </div>
     </div>
   );

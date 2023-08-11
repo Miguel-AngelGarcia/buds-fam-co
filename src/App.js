@@ -6,6 +6,7 @@ import { PredictionArea } from "./components/PredictionArea/PredictionArea";
 import { MetroAreas } from "./components/MetroAreas/MetroAreas";
 import { Footer } from "./components/Footer/Footer";
 import { CurveShape } from "./components/CurveShape/CurveShape";
+import { Modal } from "./components/Modal/Modal";
 
 function App() {
   const defaultMetroArea = "United States of America";
@@ -35,7 +36,8 @@ function App() {
   const [currentRates, setCurrentRates] = useState([{}]);
   const [metroAreaPrice, setMetroAreaPrice] = useState("");
   const [metroAreaValue, setMetroAreaValue] = useState("");
-  const [umm, setUmm] = useState(100);
+
+  const [modalState, setModalState] = useState(false);
 
   function changeMetroInfo(givenArray, toFind) {
     for (const item in givenArray) {
@@ -99,6 +101,10 @@ function App() {
 
   function changePredictAllowed(boolean) {
     setPredictAllowed(true);
+  }
+
+  function changeModalState(boolean) {
+    setModalState(!modalState);
   }
 
   //after a state or metro area changes, will reset background
@@ -195,11 +201,18 @@ function App() {
                 metroInfo={metroInfo}
                 metroAreaPrice={metroAreaPrice}
                 metroAreaValue={metroAreaValue}
-                test={umm}
+                modalState={modalState}
+                setModalState={changeModalState}
               />
             </div>
           </div>
         </div>
+        <Modal
+          modalState={modalState}
+          setModalState={changeModalState}
+          regionId={regionId}
+          usState={usState}
+        />
         <CurveShape />
         <Footer />
       </div>
