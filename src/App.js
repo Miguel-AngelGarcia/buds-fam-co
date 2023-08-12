@@ -64,6 +64,7 @@ function App() {
   }
 
   function changeState(givenState) {
+    setMetroArea(defaultMetroArea);
     setUsState(givenState);
     //console.log(givenState, regionId);
     //setMetroArea(defaultMetroArea);
