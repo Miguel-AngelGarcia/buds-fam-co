@@ -243,7 +243,9 @@ export const PredictionArea = ({
             </div>
           </div>
         </form>
-        <button onClick={() => setModalState(!modalState)}>Graphs</button>
+        <div className="button">
+          <button onClick={() => setModalState(!modalState)}>Graphs</button>
+        </div>
       </div>
     </div>
   );

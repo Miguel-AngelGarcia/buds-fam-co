@@ -29,9 +29,8 @@ export const TimeGraph = ({ regionId }) => {
       form_data.append("regionId", form.regionId);
       console.log("FORM", form_data.entries(0));
 
-      const timegraphLink =
-        //"https://budsfamco-0d4d5b3cb466.herokuapp.com/timegraph";
-        "https://budsfamco-0d4d5b3cb466.herokuapp.com/timegraph";
+      //const timegraphLink = "http://127.0.0.1:5000/timegraph";
+      ("https://budsfamco-0d4d5b3cb466.herokuapp.com/timegraph");
       const timegraphResponse = await fetch(timegraphLink, {
         method: "POST",
         body: form_data,
